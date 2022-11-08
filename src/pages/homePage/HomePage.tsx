@@ -12,6 +12,8 @@ import Spin from "antd/es/spin";
 import "antd/es/spin/style/css";
 import ActivityCardsColumn from "../../components/organisms/activityCardsColumn/ActivityCardsColumn";
 import UserInfoCard from "../../components/molecules/cards/userInfoCard/UserInfoCard";
+import { useStoreState, useStoreActions } from "easy-peasy";
+import { activitiesMockup } from "../../activitiesMoc";
 
 const HomePage = () => {
   const [activities, setActivities] = useState([]);
@@ -24,26 +26,44 @@ const HomePage = () => {
   const auth_link = "https://www.strava.com/oauth/token";
   const activities_link = `https://www.strava.com/api/v3/athlete/activities`;
 
+  const setStoreActivities = useStoreActions(
+    // @ts-ignore
+    (actions) => actions.setActivities
+  );
+  const setStoreAccessToken = useStoreActions(
+    // @ts-ignore
+    (actions) => actions.setAccessToken
+  );
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const stravaAuthResponse = await axios.all([
+  //       axios.post(
+  //         `${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`
+  //       ),
+  //     ]);
+  //
+  //     const stravaActivityResponse = await axios.get(
+  //       `${activities_link}?access_token=${stravaAuthResponse[0].data.access_token}`
+  //     );
+  //
+  //     setStoreAccessToken(stravaAuthResponse[0].data.access_token);
+  //
+  //     setActivities(stravaActivityResponse.data);
+  //
+  //     setIsLoading(false);
+  //     setStoreActivities(stravaActivityResponse.data);
+  //   }
+  //
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
-    async function fetchData() {
-      const stravaAuthResponse = await axios.all([
-        axios.post(
-          `${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`
-        ),
-      ]);
-
-      const stravaActivityResponse = await axios.get(
-        `${activities_link}?access_token=${stravaAuthResponse[0].data.access_token}`
-      );
-
-      setActivities(stravaActivityResponse.data);
-
-      setIsLoading(false);
-    }
-
-    fetchData();
+    // @ts-ignore
+    setActivities(activitiesMockup);
+    setStoreActivities(activitiesMockup);
+    setIsLoading(false);
   }, []);
-
   return (
     <>
       <Header />

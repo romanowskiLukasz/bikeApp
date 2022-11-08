@@ -9,12 +9,12 @@ export const Container = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 65px;
-  height: 65px;
-  margin-left: 15px;
+  margin-left: 30px;
+  width: 50px;
+  height: 50px;
   margin-right: 15px;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h2`
   font-weight: bolder;
 `;

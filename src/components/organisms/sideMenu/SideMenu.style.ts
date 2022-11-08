@@ -2,12 +2,16 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   position: fixed;
-  z-index: 998;
   width: 225px;
-  height: calc(100% - 100px);
-  top: 100px;
+  height: 100%;
   background-color: white;
-  border-bottom: 2px solid #e4e7ee;
-  border-right: 2px solid #e4e7ee;
-  border-top: 2px solid #e4e7ee;
+  border-radius: 0 35px 35px 0;
+`;
+
+export const LogoContainer = styled.div`
+  display: flex;
+  width: 225px;
+  height: 95px;
+  border-radius: 0 35px 0 0;
+  border-bottom: solid #d9d9d9 2px;
 `;

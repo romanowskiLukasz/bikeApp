@@ -20,6 +20,7 @@ type stravaMap = {
 };
 
 type stravaActivity = {
+  id: string;
   sport_type: string;
   name: string;
   map: stravaMap;
@@ -39,8 +40,8 @@ interface Props {
 
 const ActivityCard: React.FC<Props> = ({ activity }) => {
   const userName = "Lukasz Romanowski";
-
   const {
+    id,
     sport_type,
     name,
     map,
@@ -103,89 +104,93 @@ const ActivityCard: React.FC<Props> = ({ activity }) => {
 
   return (
     <S.Container>
-      <S.HeaderContainer>
-        <ProfileImage
-          src={
-            "https://dgalywyr863hv.cloudfront.net/pictures/athletes/14592553/9923464/2/large.jpg"
-          }
-        />
-        <section style={{ width: "100%" }}>
-          <div
+      <S.CustomLink to={`/activity/${id}`}>
+        <S.HeaderContainer>
+          <ProfileImage
+            src={
+              "https://dgalywyr863hv.cloudfront.net/pictures/athletes/14592553/9923464/2/large.jpg"
+            }
+          />
+          <section style={{ width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                color: "grey",
+                justifyContent: "space-between",
+              }}
+            >
+              <S.Header>
+                <span style={{ color: "#242428" }}>
+                  <b>{userName}</b>{" "}
+                </span>
+                {getActivityTypeMessage(sport_type)}
+              </S.Header>
+              <S.Date>
+                {getDate(start_date_local).toString().slice(4, 21)}
+              </S.Date>
+            </div>
+            <S.Name>{name}</S.Name>
+          </section>
+        </S.HeaderContainer>
+
+        <S.StatsContainer>
+          <ActivityStatIcon
+            src={"https://cdn-icons-png.flaticon.com/512/6532/6532028.png"}
+            sideText={`${calculateDuration(moving_time)}`}
+          />
+          <ActivityStatIcon
+            src="https://cdn-icons-png.flaticon.com/512/8160/8160375.png"
+            sideText={`${calculateDistance(distance)}km`}
+          />
+          <ActivityStatIcon
+            src="https://cdn-icons-png.flaticon.com/512/2786/2786465.png"
+            sideText={`${calculateAvgSpeedFromMS(average_speed)}km/h`}
+          />
+          <ActivityStatIcon
+            src="https://cdn-icons-png.flaticon.com/512/7693/7693575.png"
+            sideText={`${average_watts}W`}
+          />
+
+          <ActivityStatIcon
+            src="https://cdn-icons-png.flaticon.com/512/8227/8227036.png"
+            sideText={`${total_elevation_gain}m`}
+          />
+        </S.StatsContainer>
+        {furthestPoint.length > 0 && (
+          <MapContainer
+            bounds={[
+              [start_latlng[0], start_latlng[1]],
+              [furthestPoint[0], furthestPoint[1]],
+            ]}
+            boundsOptions={{ padding: [25, 25] }}
+            scrollWheelZoom={false}
             style={{
-              display: "flex",
-              color: "grey",
-              justifyContent: "space-between",
+              width: "580px",
+              height: "250px",
+              marginLeft: "auto",
+              marginRight: "auto",
             }}
           >
-            <S.Header>
-              <span style={{ color: "#242428" }}>
-                <b>{userName}</b>{" "}
-              </span>
-              {getActivityTypeMessage(sport_type)}
-            </S.Header>
-            <S.Date>{getDate(start_date_local).toString().slice(4, 21)}</S.Date>
-          </div>
-          <S.Name>{name}</S.Name>
-        </section>
-      </S.HeaderContainer>
-
-      <S.StatsContainer>
-        <ActivityStatIcon
-          src={"https://cdn-icons-png.flaticon.com/512/6532/6532028.png"}
-          sideText={`${calculateDuration(moving_time)}`}
-        />
-        <ActivityStatIcon
-          src="https://cdn-icons-png.flaticon.com/512/8160/8160375.png"
-          sideText={`${calculateDistance(distance)}km`}
-        />
-        <ActivityStatIcon
-          src="https://cdn-icons-png.flaticon.com/512/2786/2786465.png"
-          sideText={`${calculateAvgSpeedFromMS(average_speed)}km/h`}
-        />
-        <ActivityStatIcon
-          src="https://cdn-icons-png.flaticon.com/512/7693/7693575.png"
-          sideText={`${average_watts}W`}
-        />
-
-        <ActivityStatIcon
-          src="https://cdn-icons-png.flaticon.com/512/8227/8227036.png"
-          sideText={`${total_elevation_gain}m`}
-        />
-      </S.StatsContainer>
-      {furthestPoint.length > 0 && (
-        <MapContainer
-          bounds={[
-            [start_latlng[0], start_latlng[1]],
-            [furthestPoint[0], furthestPoint[1]],
-          ]}
-          boundsOptions={{ padding: [25, 25] }}
-          scrollWheelZoom={false}
-          style={{
-            width: "580px",
-            height: "250px",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Polyline positions={activityPositions}></Polyline>)
-        </MapContainer>
-      )}
-      {furthestPoint.length <= 0 && (
-        <Space
-          size="middle"
-          style={{
-            margin: "20px auto auto auto",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Spin size="large" />
-        </Space>
-      )}
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Polyline positions={activityPositions}></Polyline>)
+          </MapContainer>
+        )}
+        {furthestPoint.length <= 0 && (
+          <Space
+            size="middle"
+            style={{
+              margin: "20px auto auto auto",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Spin size="large" />
+          </Space>
+        )}
+      </S.CustomLink>
     </S.Container>
   );
 };

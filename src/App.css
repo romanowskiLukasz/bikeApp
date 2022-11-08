@@ -1,6 +1,6 @@
 body{
-  background-color: #F7F7FA;
-  font-family: "Open Sans", sans-serif;
+  background-color: #F5F5F5 !important;
+  font-family: 'Be Vietnam Pro', sans-serif !important;
 }
 
 .App {
@@ -34,9 +34,7 @@ body{
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
+
 
 @keyframes App-logo-spin {
   from {

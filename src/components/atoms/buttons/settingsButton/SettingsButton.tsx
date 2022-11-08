@@ -1,12 +1,12 @@
 import React from "react";
-import * as S from "./IconButton.style";
+import * as S from "./SettingsButton.style";
 
 interface Props {
   imgSrc: string;
   buttonTxt: string;
 }
 
-const IconButton: React.FC<Props> = ({ imgSrc, buttonTxt }) => {
+const SettingsButton: React.FC<Props> = ({ imgSrc, buttonTxt }) => {
   return (
     <S.Container>
       <S.CustomLink to="/">
@@ -16,4 +16,4 @@ const IconButton: React.FC<Props> = ({ imgSrc, buttonTxt }) => {
     </S.Container>
   );
 };
-export default IconButton;
+export default SettingsButton;
