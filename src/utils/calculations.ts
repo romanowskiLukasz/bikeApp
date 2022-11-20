@@ -14,7 +14,7 @@ export const calculateAvgSpeed = (duration: number, distance: number) => {
 };
 
 export const calculateAvgSpeedFromMS = (avgSpeedInMS: number) => {
-  return Math.round(avgSpeedInMS * 3.6 * 100) / 100;
+  return Math.round(avgSpeedInMS * 3.6 * 10) / 10;
 };
 
 export const getDate = (ISODate: string) => {

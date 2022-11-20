@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/organisms/header/Header";
 import SideMenu from "../../components/organisms/sideMenu/SideMenu";
+import TrainingDetails from "../../components/organisms/trainingDetails/TrainingDetails";
 import { useStoreState } from "easy-peasy";
 import * as S from "./ActivityPage.style";
-import { getDate } from "../../utils/calculations";
+import {
+  calculateDistance,
+  calculateDuration,
+  getDate,
+} from "../../utils/calculations";
 import { MapContainer, Polyline, TileLayer } from "react-leaflet";
 import polyline from "@mapbox/polyline";
+import OnMapStatistic from "../../components/atoms/onMapStatistic/OnMapStatistic";
 
 const axios = require("axios").default;
 
@@ -49,6 +55,9 @@ const ActivityPage: React.FC = () => {
     map: {},
     end_latlng: [],
     start_latlng: [],
+    distance: "",
+    moving_time: "",
+    total_elevation_gain: "",
   });
   console.log(activityInfo);
   useEffect(() => {
@@ -110,7 +119,24 @@ const ActivityPage: React.FC = () => {
         <S.ActivityName>{activityInfo.name}</S.ActivityName>
         {furthestPoint.length > 0 && (
           <>
-            <S.OpacityGradient></S.OpacityGradient>
+            <S.OpacityGradient>
+              <OnMapStatistic
+                title={"Distance"}
+                value={calculateDistance(parseFloat(activityInfo.distance))}
+                unit={"KM"}
+              />
+
+              <OnMapStatistic
+                title={"Moving time"}
+                value={calculateDuration(parseFloat(activityInfo.moving_time))}
+                unit={""}
+              />
+              <OnMapStatistic
+                title={"Distance"}
+                value={activityInfo.total_elevation_gain}
+                unit={"M"}
+              />
+            </S.OpacityGradient>
             <MapContainer
               bounds={[
                 [activityInfo.start_latlng[0], activityInfo.start_latlng[1]],
@@ -134,6 +160,7 @@ const ActivityPage: React.FC = () => {
           </>
         )}
       </S.ContentContainer>
+      <TrainingDetails activityInfo={activityInfo} />
     </S.PageLayout>
   );
 };

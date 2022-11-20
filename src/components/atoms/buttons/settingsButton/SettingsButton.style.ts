@@ -2,16 +2,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Container = styled.div`
-  margin-top: 400px;
+  margin-top: 370px;
   display: flex;
   align-items: center;
   width: 100%;
   height: 60px;
-  color: black;
-  &:hover {
-    cursor: pointer;
-    color: black;
-  }
 `;
 
 export const Image = styled.img`
@@ -29,4 +24,8 @@ export const Text = styled.span`
 
 export const CustomLink = styled(Link)`
   all: inherit;
+  &:hover {
+    cursor: pointer;
+    color: black; !important;
+  }
 `;

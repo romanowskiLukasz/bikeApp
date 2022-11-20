@@ -66,7 +66,6 @@ const HomePage = () => {
   }, []);
   return (
     <>
-      <Header />
       <SideMenu />
       <S.ContentContainer>
         <ActivityCardsColumn isLoading={isLoading} activities={activities} />

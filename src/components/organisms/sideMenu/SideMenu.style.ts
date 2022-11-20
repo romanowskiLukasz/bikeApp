@@ -6,6 +6,7 @@ export const Container = styled.div`
   height: 100%;
   background-color: white;
   border-radius: 0 35px 35px 0;
+  top: 0;
 `;
 
 export const LogoContainer = styled.div`

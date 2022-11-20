@@ -7,7 +7,9 @@ export const PageLayout = styled.div`
 
 export const ContentContainer = styled.div`
   margin-top: 40px;
-  margin-left: 260px;
+  margin-left: max(240px, calc(50% - 500px));
+  //margin-left: max(240px, auto);
+  //margin-right: auto;
   width: 800px;
 `;
 
@@ -21,6 +23,7 @@ export const ActivityName = styled.h2`
 `;
 
 export const OpacityGradient = styled.div`
+  display: flex;
   background: linear-gradient(
     0deg,
     rgba(169, 208, 113, 0),

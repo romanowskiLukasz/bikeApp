@@ -11,7 +11,6 @@ export const Container = styled.div`
     cursor: pointer;
     transition: background-color 0.5s ease;
     background-color: #f5f5f5;
-    color: black !important;
   }
 `;
 
@@ -28,5 +27,8 @@ export const Text = styled.span`
 `;
 
 export const CustomLink = styled(Link)`
-  all: inherit;
+  all: inherit; 
+  &:hover {
+    color: black; !important;
+  }
 `;
