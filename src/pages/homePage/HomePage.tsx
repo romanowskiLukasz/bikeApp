@@ -47,6 +47,14 @@ const HomePage = () => {
   //       `${activities_link}?access_token=${stravaAuthResponse[0].data.access_token}`
   //     );
   //
+  //     axios
+  //       .get(
+  //         `https://www.strava.com/api/v3/athlete?access_token=${stravaAuthResponse[0].data.access_token}`
+  //       )
+  //       .then((resp: any) => {
+  //         console.log(resp.data);
+  //       });
+  //
   //     setStoreAccessToken(stravaAuthResponse[0].data.access_token);
   //
   //     setActivities(stravaActivityResponse.data);

@@ -12,6 +12,7 @@ import {
 import { MapContainer, Polyline, TileLayer } from "react-leaflet";
 import polyline from "@mapbox/polyline";
 import OnMapStatistic from "../../components/atoms/onMapStatistic/OnMapStatistic";
+import ActivityChartSection from "../../components/organisms/activityChartSection/ActivityChartSection";
 
 const axios = require("axios").default;
 
@@ -65,7 +66,7 @@ const ActivityPage: React.FC = () => {
 
     // axios
     //   .get(
-    //     `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=watts&key_by_type=true&access_token=${userAccessToken}`
+    //     `https://www.strava.com/api/v3/activities/${activityId}/streams?keys=watts,altitude,heartrate,velocity_smooth&resolution=medium&key_by_type=true&access_token=${userAccessToken}`
     //   )
     //   .then((resp: any) => {
     //     console.log(resp.data);
@@ -159,6 +160,7 @@ const ActivityPage: React.FC = () => {
             </MapContainer>
           </>
         )}
+        <ActivityChartSection duration={parseFloat(activityInfo.moving_time)} />
       </S.ContentContainer>
       <TrainingDetails activityInfo={activityInfo} />
     </S.PageLayout>

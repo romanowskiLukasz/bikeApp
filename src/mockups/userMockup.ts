@@ -1,0 +1,25 @@
+export const userMockup = {
+  id: 14592553,
+  username: "lukasz_romanowski",
+  resource_state: 2,
+  firstname: "Łukasz",
+  lastname: "Romanowski",
+  bio: "",
+  city: "Kraków",
+  state: "Lesser Poland Voivodeship",
+  country: "Poland",
+  sex: "M",
+  premium: false,
+  summit: false,
+  created_at: "2016-04-16T11:28:38Z",
+  updated_at: "2022-10-30T13:27:37Z",
+  badge_type_id: 0,
+  weight: 72,
+  ftp: 300,
+  profile_medium:
+    "https://dgalywyr863hv.cloudfront.net/pictures/athletes/14592553/9923464/2/medium.jpg",
+  profile:
+    "https://dgalywyr863hv.cloudfront.net/pictures/athletes/14592553/9923464/2/large.jpg",
+  friend: null,
+  follower: null,
+};

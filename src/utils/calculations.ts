@@ -4,7 +4,7 @@ export const calculateDistance = (distance: number) => {
 
 export const calculateDuration = (durationInSeconds: number) => {
   let date = new Date(0);
-  date.setSeconds(durationInSeconds);
+  date.setSeconds(durationInSeconds ? durationInSeconds : 0);
   let timeString = date.toISOString().substring(11, 19);
   return timeString;
 };
