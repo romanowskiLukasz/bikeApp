@@ -13,14 +13,17 @@ const SideMenu = () => {
       <IconButton
         imgSrc="https://cdn-icons-png.flaticon.com/512/3187/3187707.png"
         buttonTxt="Activities"
+        link={"/"}
       />
       <IconButton
         imgSrc="https://cdn-icons-png.flaticon.com/512/4772/4772067.png"
         buttonTxt="Workshop"
+        link={"/workshop"}
       />
       <IconButton
         imgSrc="https://cdn-icons-png.flaticon.com/512/814/814906.png"
         buttonTxt="Activities Calendar"
+        link={"/activityCalendar"}
       />
       <SettingsButton
         imgSrc={"https://cdn-icons-png.flaticon.com/512/595/595577.png"}

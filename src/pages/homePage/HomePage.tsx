@@ -13,11 +13,28 @@ import "antd/es/spin/style/css";
 import ActivityCardsColumn from "../../components/organisms/activityCardsColumn/ActivityCardsColumn";
 import UserInfoCard from "../../components/molecules/cards/userInfoCard/UserInfoCard";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { activitiesMockup } from "../../activitiesMoc";
+import {
+  activitiesMockup,
+  novemberActivities,
+  octoberActivityList,
+  septemberActivityList,
+} from "../../activitiesMoc";
+import MonthSelector from "../../components/molecules/monthSelector/MonthSelector";
 
 const HomePage = () => {
   const [activities, setActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const date = new Date();
+  const yearNumber = date.getFullYear();
+  const [monthNumber, setMonthNumber] = useState(date.getMonth());
+
+  const handleMonthChange = (mNum: number) => {
+    setMonthNumber(mNum);
+  };
+
+  const beforeDate = new Date(yearNumber, monthNumber, 30);
+  const afterDate = new Date(yearNumber, monthNumber, 1);
 
   const clientID = "79929";
 
@@ -34,6 +51,8 @@ const HomePage = () => {
     // @ts-ignore
     (actions) => actions.setAccessToken
   );
+  // @ts-ignore
+  const userToken = useStoreState((state) => state.userAccessToken);
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -44,9 +63,12 @@ const HomePage = () => {
   //     ]);
   //
   //     const stravaActivityResponse = await axios.get(
-  //       `${activities_link}?access_token=${stravaAuthResponse[0].data.access_token}`
+  //       `${activities_link}?before=${beforeDate.getTime() / 1000}&after=${
+  //         afterDate.getTime() / 1000
+  //       }&access_token=${stravaAuthResponse[0].data.access_token}`
   //     );
-  //
+  //     setActivities(stravaActivityResponse.data);
+  //     setStoreActivities(stravaActivityResponse.data);
   //     axios
   //       .get(
   //         `https://www.strava.com/api/v3/athlete?access_token=${stravaAuthResponse[0].data.access_token}`
@@ -57,26 +79,58 @@ const HomePage = () => {
   //
   //     setStoreAccessToken(stravaAuthResponse[0].data.access_token);
   //
-  //     setActivities(stravaActivityResponse.data);
-  //
   //     setIsLoading(false);
-  //     setStoreActivities(stravaActivityResponse.data);
   //   }
   //
   //   fetchData();
   // }, []);
-
+  //
   useEffect(() => {
-    // @ts-ignore
-    setActivities(activitiesMockup);
-    setStoreActivities(activitiesMockup);
+    // if (userToken !== "") {
+    //   axios
+    //     .get(
+    //       `${activities_link}?before=${beforeDate.getTime() / 1000}&after=${
+    //         afterDate.getTime() / 1000
+    //       }&access_token=${userToken}`
+    //     )
+    //     .then((response) => {
+    //       setActivities(response.data);
+    //       setStoreActivities(response.data);
+    //     });
+    // }
+
+    if (monthNumber === 10) {
+      // @ts-ignore
+      setActivities(novemberActivities);
+      setStoreActivities(novemberActivities);
+    }
+    if (monthNumber === 9) {
+      // @ts-ignore
+      setActivities(octoberActivityList);
+      setStoreActivities(octoberActivityList);
+    }
+    if (monthNumber === 8) {
+      // @ts-ignore
+      setActivities(septemberActivityList);
+      setStoreActivities(septemberActivityList);
+    }
     setIsLoading(false);
-  }, []);
+  }, [userToken, monthNumber]);
+
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   setActivities(activitiesMockup);
+  //   setStoreActivities(activitiesMockup);
+  //   setIsLoading(false);
+  // }, []);
   return (
     <>
       <SideMenu />
       <S.ContentContainer>
-        <ActivityCardsColumn isLoading={isLoading} activities={activities} />
+        <section>
+          <MonthSelector setMonthNumber={handleMonthChange} />
+          <ActivityCardsColumn isLoading={isLoading} activities={activities} />
+        </section>
         <UserInfoCard />
       </S.ContentContainer>
     </>

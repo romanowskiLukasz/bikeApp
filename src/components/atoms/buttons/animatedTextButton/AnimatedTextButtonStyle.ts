@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-export const Container = styled.div`
+export const AnimatedButton = styled.button`
   display: flex;
   align-items: center;
   color: #939393;
@@ -34,26 +33,6 @@ export const Container = styled.div`
   z-index: 1;
   &:hover,
   &:focus {
-    color: gray;
-  }
-`;
-
-export const Image = styled.img`
-  width: 30px;
-  height: 30px;
-  margin-left: 30px;
-  margin-right: 10px;
-`;
-
-export const Text = styled.span`
-  font-weight: 600;
-  font-size: 20px;
-`;
-
-export const CustomLink = styled(Link)`
-  all: inherit; 
-  background-color: transparent;
-  &:hover {
-    color: black; !important;
+    color: black;
   }
 `;
