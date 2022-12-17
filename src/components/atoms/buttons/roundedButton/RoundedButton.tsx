@@ -1,16 +1,12 @@
 import React from "react";
-import * as S from "./AnimatedTextButtonStyle";
+import * as S from "./RoundedButton.style";
 
 interface Props {
   value: string;
   style?: React.CSSProperties;
 }
 
-const AnimatedTextButton: React.FC<Props> = ({
-  value,
-  style = {},
-  ...props
-}) => {
+const RoundedButton: React.FC<Props> = ({ value, style = {}, ...props }) => {
   return (
     <S.AnimatedButton style={style} {...props}>
       {value}
@@ -18,4 +14,4 @@ const AnimatedTextButton: React.FC<Props> = ({
   );
 };
 
-export default AnimatedTextButton;
+export default RoundedButton;

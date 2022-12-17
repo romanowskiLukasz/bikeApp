@@ -11,7 +11,7 @@ const SideMenu = () => {
         <Logo />
       </S.LogoContainer>
       <IconButton
-        imgSrc="https://cdn-icons-png.flaticon.com/512/3187/3187707.png"
+        imgSrc="https://cdn-icons-png.flaticon.com/512/3601/3601647.png"
         buttonTxt="Activities"
         link={"/"}
       />

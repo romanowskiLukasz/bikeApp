@@ -3,10 +3,10 @@ import styled from "styled-components";
 export const AnimatedButton = styled.button`
   display: flex;
   align-items: center;
-  color: #939393;
+  color: white;
   width: 100%;
   height: 60px;
-  background-color: white;
+  background-color: #fc4c02;
   border: none;
   cursor: pointer;
   outline: none;

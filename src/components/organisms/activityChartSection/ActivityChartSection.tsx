@@ -258,7 +258,11 @@ const ActivityChartSection: React.FC<Props> = ({ duration }) => {
       </section>
       <section
         id={"singleChart"}
-        style={menuOption === "SingleChart" ? {} : { display: "none" }}
+        style={
+          menuOption === "SingleChart"
+            ? { minHeight: "400px" }
+            : { display: "none" }
+        }
       >
         <Line options={options} data={singleChartData} />
       </section>
@@ -275,7 +279,7 @@ const ActivityChartSection: React.FC<Props> = ({ duration }) => {
               height={"400px"}
             />
           </div>
-          <div style={{ width: "50%", height: "50%" }}>
+          <div style={{ minWidth: "300px", height: "300px" }}>
             <Doughnut data={powerZonesInPercentageData} />
           </div>
         </div>

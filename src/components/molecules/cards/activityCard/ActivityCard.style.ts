@@ -36,6 +36,8 @@ export const Name = styled.h2`
   margin-left: 10px;
   margin-top: 0;
   color: #242428;
+  max-height: 35px;
+  overflow: scroll;
 `;
 
 export const StatsContainer = styled.div`

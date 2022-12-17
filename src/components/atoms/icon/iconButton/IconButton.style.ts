@@ -20,7 +20,7 @@ export const Container = styled.div`
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: #f5f5f5;
+    background-color: #fc4c02;
     z-index: -1;
     transition: transform 300ms ease-in-out;
     transform: scaleX(0);
@@ -54,6 +54,6 @@ export const CustomLink = styled(Link)`
   all: inherit; 
   background-color: transparent;
   &:hover {
-    color: black; !important;
+    color: white; !important;
   }
 `;

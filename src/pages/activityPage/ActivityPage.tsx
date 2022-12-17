@@ -133,7 +133,7 @@ const ActivityPage: React.FC = () => {
                 unit={""}
               />
               <OnMapStatistic
-                title={"Distance"}
+                title={"Elevation"}
                 value={activityInfo.total_elevation_gain}
                 unit={"M"}
               />

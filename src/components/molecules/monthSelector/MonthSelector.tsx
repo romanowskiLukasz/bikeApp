@@ -37,7 +37,7 @@ const MonthSelector: React.FC<Props> = ({ setMonthNumber }) => {
             return (
               <AnimatedTextButton
                 value={month.slice(0, 3)}
-                borderRadius="10px 0 0 10px"
+                style={{ borderRadius: "20px 0 0 20px" }}
                 // @ts-ignore
                 onClick={() => onClick(index)}
               />
@@ -46,7 +46,7 @@ const MonthSelector: React.FC<Props> = ({ setMonthNumber }) => {
             return (
               <AnimatedTextButton
                 value={month.slice(0, 3)}
-                borderRadius="0 10px 10px 0"
+                style={{ borderRadius: "0 20px 20px 0" }}
                 // @ts-ignore
                 onClick={() => onClick(index)}
               />

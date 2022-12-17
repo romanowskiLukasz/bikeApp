@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Container = styled.div`
-  margin-top: 370px;
+  margin-top: 250px;
   display: flex;
   align-items: center;
   width: 100%;
@@ -27,5 +27,6 @@ export const CustomLink = styled(Link)`
   &:hover {
     cursor: pointer;
     color: black; !important;
+    
   }
 `;

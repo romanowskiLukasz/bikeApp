@@ -7,7 +7,10 @@ import model from "./easy-peasy/model";
 import HomePage from "./pages/homePage/HomePage";
 import ActivityPage from "./pages/activityPage/ActivityPage";
 import CalendarPage from "./pages/calendarPage/CalendarPage";
-import SideMenu from "./components/organisms/sideMenu/SideMenu";
+import WorkshopHomePage from "./pages/workshop/homePage/WorkshopHomePage";
+import MyBikesPage from "./pages/workshop/myBikesPage/MyBikesPage";
+import MyPartsPage from "./pages/workshop/myPartsPage/MyPartsPage";
+import LoginPage from "./pages/loginPage/LoginPage";
 
 const store = createStore(model);
 
@@ -22,6 +25,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/activityCalendar" element={<CalendarPage />} />
           <Route path="/activity/:activityId" element={<ActivityPage />} />
+          <Route path="/workshop" element={<WorkshopHomePage />} />
+          <Route path="/workshop/my-bikes" element={<MyBikesPage />} />
+          <Route path="/workshop/my-parts" element={<MyPartsPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>
     </StoreProvider>
