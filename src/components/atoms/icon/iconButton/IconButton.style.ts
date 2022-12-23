@@ -48,6 +48,7 @@ export const Image = styled.img`
 export const Text = styled.span`
   font-weight: 600;
   font-size: 20px;
+  max-width: 200px;
 `;
 
 export const CustomLink = styled(Link)`

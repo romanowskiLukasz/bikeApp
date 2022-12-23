@@ -1,5 +1,7 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import AnimatedTextButton from "../../atoms/buttons/animatedTextButton/AnimatedTextButton";
+import * as S from "./MonthSelector.style";
+import useCurrentWidth from "../../../hooks/UseCurrentWidth";
 
 const months = [
   "January",
@@ -23,6 +25,7 @@ interface Props {
 const MonthSelector: React.FC<Props> = ({ setMonthNumber }) => {
   const date = new Date();
   const [currentMonth, setCurrentMonth] = useState(months[date.getMonth()]);
+  let width = useCurrentWidth();
 
   const onClick = (monthNumber: number) => {
     setCurrentMonth(months[monthNumber]);
@@ -31,9 +34,9 @@ const MonthSelector: React.FC<Props> = ({ setMonthNumber }) => {
 
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <S.ButtonContainer>
         {months.map((month, index) => {
-          if (index === 0) {
+          if (index === 0 && width > 500) {
             return (
               <AnimatedTextButton
                 value={month.slice(0, 3)}
@@ -42,7 +45,7 @@ const MonthSelector: React.FC<Props> = ({ setMonthNumber }) => {
                 onClick={() => onClick(index)}
               />
             );
-          } else if (index === 11)
+          } else if (index === 11 && width > 500)
             return (
               <AnimatedTextButton
                 value={month.slice(0, 3)}
@@ -60,7 +63,7 @@ const MonthSelector: React.FC<Props> = ({ setMonthNumber }) => {
               />
             );
         })}
-      </div>
+      </S.ButtonContainer>
       <h4 style={{ margin: "10px 0 20px 0" }}>Active Month: {currentMonth}</h4>
     </>
   );

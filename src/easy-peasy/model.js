@@ -3,7 +3,9 @@ import { action } from "easy-peasy";
 export default {
   isLoggedIn: false,
   loggedUserEmal: "",
-  me: "",
+  user: {},
+  registrationData: {},
+  stravaAccessToken: "",
   activities: {},
   userAccessToken: "",
 
@@ -12,8 +14,14 @@ export default {
     state.isLoggedIn = true;
     state.loggedUserEmal = email;
   }),
-  setMe: action((state, userInfo) => {
-    state.me = userInfo;
+  setUser: action((state, userInfo) => {
+    state.user = userInfo;
+  }),
+  setStravaAccessToken: action((state, accessToken) => {
+    state.stravaAccessToken = accessToken;
+  }),
+  setRegistrationData: action((state, registrationData) => {
+    state.registrationData = registrationData;
   }),
   setLoggedUserEmal: action((state, newEmail) => {
     state.loggedUserEmal = newEmail;

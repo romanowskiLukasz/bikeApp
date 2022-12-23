@@ -8,7 +8,6 @@ export const Background = styled.img`
 
 export const Container = styled.div`
   width: 400px;
-  height: 370px;
   background-color: #282828;
   opacity: 0.8;
   position: absolute;
@@ -31,7 +30,6 @@ export const HeaderContainer = styled.div`
   z-index: 2;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
 `;
 
 export const Title = styled.h1`
@@ -70,4 +68,19 @@ export const CustomLink = styled(Link)`
   display: flex;
   justify-content: center;
   cursor: pointer;
+  padding-bottom: 20px;
+`;
+
+export const ErrorContainer = styled.div`
+  background-color: red;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+`;
+
+export const ErrorText = styled.span`
+  color: white;
+  font-size: 14px;
 `;

@@ -20,10 +20,16 @@ import {
   septemberActivityList,
 } from "../../activitiesMoc";
 import MonthSelector from "../../components/molecules/monthSelector/MonthSelector";
+import { userMockup } from "../../mockups/userMockup";
+import { calculateDistance } from "../../utils/calculations";
+import MobileMenu from "../../components/organisms/mobileMenu/MobileMenu";
+import useCurrentWidth from "../../hooks/UseCurrentWidth";
 
 const HomePage = () => {
   const [activities, setActivities] = useState([]);
+  const [userInfo, setUserInfo] = useState(userMockup);
   const [isLoading, setIsLoading] = useState(true);
+  let width = useCurrentWidth();
 
   const date = new Date();
   const yearNumber = date.getFullYear();
@@ -36,69 +42,58 @@ const HomePage = () => {
   const beforeDate = new Date(yearNumber, monthNumber, 30);
   const afterDate = new Date(yearNumber, monthNumber, 1);
 
-  const clientID = "79929";
-
-  const clientSecret = "dce6f310a9ea3421dbaad9fe047b9c83ea5dca5f";
-  const refreshToken = "4cf4fba02f788bd8729bedff461a4fab2b6af451";
-  const auth_link = "https://www.strava.com/oauth/token";
-  const activities_link = `https://www.strava.com/api/v3/athlete/activities`;
-
   const setStoreActivities = useStoreActions(
     // @ts-ignore
     (actions) => actions.setActivities
   );
-  const setStoreAccessToken = useStoreActions(
+  const setStoreUser = useStoreActions(
     // @ts-ignore
-    (actions) => actions.setAccessToken
+    (actions) => actions.setUser
   );
+
   // @ts-ignore
   const userToken = useStoreState((state) => state.userAccessToken);
+  // @ts-ignore
+  const stravaAccessToken = useStoreState((state) => state.stravaAccessToken);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const stravaAuthResponse = await axios.all([
-  //       axios.post(
-  //         `${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`
-  //       ),
-  //     ]);
-  //
-  //     const stravaActivityResponse = await axios.get(
-  //       `${activities_link}?before=${beforeDate.getTime() / 1000}&after=${
-  //         afterDate.getTime() / 1000
-  //       }&access_token=${stravaAuthResponse[0].data.access_token}`
-  //     );
-  //     setActivities(stravaActivityResponse.data);
-  //     setStoreActivities(stravaActivityResponse.data);
-  //     axios
-  //       .get(
-  //         `https://www.strava.com/api/v3/athlete?access_token=${stravaAuthResponse[0].data.access_token}`
-  //       )
-  //       .then((resp: any) => {
-  //         console.log(resp.data);
-  //       });
-  //
-  //     setStoreAccessToken(stravaAuthResponse[0].data.access_token);
-  //
-  //     setIsLoading(false);
-  //   }
-  //
-  //   fetchData();
-  // }, []);
-  //
+  setStoreUser(userMockup);
   useEffect(() => {
-    // if (userToken !== "") {
-    //   axios
-    //     .get(
-    //       `${activities_link}?before=${beforeDate.getTime() / 1000}&after=${
-    //         afterDate.getTime() / 1000
-    //       }&access_token=${userToken}`
-    //     )
-    //     .then((response) => {
-    //       setActivities(response.data);
-    //       setStoreActivities(response.data);
-    //     });
-    // }
+    if (stravaAccessToken.length > 0) {
+      // axios
+      //   .get(
+      //     `https://www.strava.com/api/v3/athlete/activities?before=${beforeDate.getTime() / 1000}&after=${
+      //       afterDate.getTime() / 1000
+      //     }&access_token=${stravaAccessToken}`
+      //   )
+      //   .then((resp: any) => {
+      //     setActivities(resp.data);
+      //     setStoreActivities(resp.data);
+      //     setIsLoading(false);
+      //   });
+      // axios
+      //   .get(
+      //     `https://www.strava.com/api/v3/athlete?access_token=${stravaAccessToken}`
+      //   )
+      //   .then((resp: any) => {
+      //     setStoreUser(resp.data);
+      //   });
+    }
+  }, [stravaAccessToken]);
 
+  const getBikeName = (bikeId: string) => {
+    const bike = userInfo.bikes.find((bike) => bike.id === bikeId);
+    return bike?.name;
+  };
+
+  const postActivitiesValues = activities.map((activity: any) => {
+    return {
+      distance: Math.round(calculateDistance(activity.distance)),
+      date: activity.start_date_local,
+      bikeName: getBikeName(activity.gear_id),
+    };
+  });
+
+  useEffect(() => {
     if (monthNumber === 10) {
       // @ts-ignore
       setActivities(novemberActivities);
@@ -115,23 +110,30 @@ const HomePage = () => {
       setStoreActivities(septemberActivityList);
     }
     setIsLoading(false);
+    axios
+      .post("http://localhost:8080/updatePartsDistance", {
+        postActivitiesValues,
+      })
+      .then();
   }, [userToken, monthNumber]);
 
-  // useEffect(() => {
-  //   // @ts-ignore
-  //   setActivities(activitiesMockup);
-  //   setStoreActivities(activitiesMockup);
-  //   setIsLoading(false);
-  // }, []);
+  console.log(width);
   return (
     <>
       <SideMenu />
+
       <S.ContentContainer>
-        <section>
+        <UserInfoCard />
+        <section
+        // style={{
+        //   display: "flex",
+        //   flexDirection: "column",
+        //   justifyContent: "center",
+        // }}
+        >
           <MonthSelector setMonthNumber={handleMonthChange} />
           <ActivityCardsColumn isLoading={isLoading} activities={activities} />
         </section>
-        <UserInfoCard />
       </S.ContentContainer>
     </>
   );

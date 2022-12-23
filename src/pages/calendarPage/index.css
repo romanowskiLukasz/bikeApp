@@ -17,3 +17,7 @@
 .notes-month section {
     font-size: 28px;
 }
+
+.hideHeader .ant-picker-calendar-header {
+    display: none;
+}

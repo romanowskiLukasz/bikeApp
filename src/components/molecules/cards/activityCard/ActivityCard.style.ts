@@ -8,8 +8,8 @@ export const CustomLink = styled(Link)`
 export const Container = styled.div`
   background-color: white;
   border-radius: 15px;
-  width: 600px;
-  height: 400px;
+  height: fit-content;
+  max-width: 700px;
   border: 1px solid #e4e7ee;
   box-shadow: 5px 5px 15px 2px #e4e7ee;
   margin-bottom: 15px;
@@ -45,7 +45,10 @@ export const StatsContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 50px;
+
+  @media (max-width: 500px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const HeaderContainer = styled.div`

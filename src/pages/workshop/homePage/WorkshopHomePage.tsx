@@ -3,6 +3,8 @@ import SideMenu from "../../../components/organisms/sideMenu/SideMenu";
 import * as S from "./WorkshopHomePage.style";
 import OpacityButton from "../../../components/atoms/buttons/opacityButton/OpacityButton";
 import jpg from "./media/myBikes.jpeg";
+import useCurrentWidth from "../../../hooks/UseCurrentWidth";
+
 const WorkshopHomePage = () => {
   return (
     <>

@@ -5,6 +5,7 @@ export const AnimatedButton = styled.button`
   align-items: center;
   color: white;
   width: 100%;
+  max-width: 70px;
   height: 60px;
   background-color: #fc4c02;
   border: none;

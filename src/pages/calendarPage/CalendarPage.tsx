@@ -1,69 +1,166 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import type { BadgeProps } from "antd";
 import "./index.css";
+import * as S from "./CalendarPage.style";
 import { Badge, Calendar } from "antd";
 import type { Dayjs } from "dayjs";
 import SideMenu from "../../components/organisms/sideMenu/SideMenu";
 import "antd/dist/antd.css";
-
-const getListData = (value: Dayjs) => {
-  let listData;
-  switch (value.date()) {
-    case 8:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-      ];
-      break;
-    case 10:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-        { type: "error", content: "This is error event." },
-      ];
-      break;
-    case 15:
-      listData = [
-        { type: "warning", content: "This is warning event" },
-        { type: "success", content: "This is very long usual event。。...." },
-        { type: "error", content: "This is error event 1." },
-        { type: "error", content: "This is error event 2." },
-        { type: "error", content: "This is error event 3." },
-        { type: "error", content: "This is error event 4." },
-      ];
-      break;
-    default:
-  }
-  return listData || [];
-};
+import { useStoreActions, useStoreState } from "easy-peasy";
+import { calculateDistance } from "../../utils/calculations";
+import dayjs from "dayjs";
+import ActivityCardsColumn from "../../components/organisms/activityCardsColumn/ActivityCardsColumn";
+import axios from "axios";
 
 const CalendarPage: React.FC = () => {
-  const dateCellRender = (value: Dayjs) => {
-    const listData = getListData(value);
-    console.log(value.format("l"));
-    return (
-      <ul className="events">
-        {listData.map((item) => (
-          <li key={item.content}>
-            <Badge
-              status={item.type as BadgeProps["status"]}
-              text={item.content}
-            />
-          </li>
-        ))}
-      </ul>
-    );
+  // @ts-ignore
+  const storeActivities = useStoreState((state) => state.activities);
+
+  const [activities, setActivities] = useState(storeActivities);
+  // const [activities, setActivities] = useState([]);
+  const [selectedDayActivities, setSelectedDayActiviteis] = useState([{}]);
+  const [
+    shouldDisplayActivitiesOnSelectedDay,
+    setShouldDisplayActivitiesOnSelectedDay,
+  ] = useState(false);
+  // @ts-ignore
+  const stravaAccessToken = useStoreState((state) => state.stravaAccessToken);
+  const setStoreActivities = useStoreActions(
+    // @ts-ignore
+    (actions) => actions.setActivities
+  );
+  useEffect(() => {
+    handleChange(dayjs());
+  }, []);
+
+  const getCellDistance = (date: Dayjs) => {
+    let distance = 0;
+    const cellDate = date.format("DD/MM/YYYY");
+    let activityDateTrimmed;
+    let activityDate;
+    if (activities && activities.length) {
+      activities.forEach((activity: any) => {
+        activityDateTrimmed = new Date(activity.start_date_local);
+
+        dayjs(activity.start_date_local).format("DD/MM/YYYY");
+        activityDate = dayjs(activity.start_date_local).format("DD/MM/YYYY");
+        if (activityDate.toString() === cellDate.toString()) {
+          distance += activity.distance;
+        }
+      });
+    }
+    return Math.round(calculateDistance(distance));
   };
 
+  const dateCellRender = (value: Dayjs) => {
+    const distance = getCellDistance(value);
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {distance != 0 && (
+          <div
+            style={{
+              backgroundColor: "#ED6335",
+              minWidth: "40px",
+              maxWidth: "80px",
+              minHeight: "40px",
+              maxHeight: "80px",
+              width: `${40 + 40 * (distance / 100)}px`,
+              height: `${40 + 40 * (distance / 100)}px`,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "50%",
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            {distance}km
+          </div>
+        )}
+      </div>
+    );
+  };
+  const onDaySelect = (date: moment.Moment) => {
+    setShouldDisplayActivitiesOnSelectedDay(false);
+    setSelectedDayActiviteis([]);
+    console.log("tstt");
+    const cellDate = date.format("DD/MM/YYYY");
+    let activityDateTrimmed;
+    let activityDate;
+    if (activities) {
+      activities.forEach((activity: any) => {
+        activityDateTrimmed = new Date(activity.start_date_local);
+
+        dayjs(activity.start_date_local).format("DD/MM/YYYY");
+        activityDate = dayjs(activity.start_date_local).format("DD/MM/YYYY");
+        if (activityDate.toString() === cellDate.toString()) {
+          setSelectedDayActiviteis((current) => [...current, activity]);
+          setShouldDisplayActivitiesOnSelectedDay(true);
+        }
+      });
+    }
+  };
+
+  const handleChange = (date: Dayjs) => {
+    const beforeTimestamp = new Date(date.year(), date.month() + 1, 8);
+    const afterTimestamp = new Date(date.year(), date.month() - 1, 28);
+    console.log(stravaAccessToken);
+    console.log(beforeTimestamp);
+    console.log(afterTimestamp);
+    // if (stravaAccessToken.length > 0) {
+    //   axios
+    //     .get(
+    //       `https://www.strava.com/api/v3/athlete/activities?before=${
+    //         beforeTimestamp.getTime() / 1000
+    //       }&per_page=60
+    //       &after=${
+    //         afterTimestamp.getTime() / 1000
+    //       }&access_token=${stravaAccessToken}`
+    //     )
+    //     .then((resp: any) => {
+    //       setActivities(resp.data);
+    //       setStoreActivities(resp.data);
+    //     });
+    // }
+  };
+
+  console.log(selectedDayActivities);
   return (
     <div style={{ display: "flex" }}>
       <SideMenu />
-
-      <Calendar
-        // @ts-ignore
-        dateCellRender={dateCellRender}
-        style={{ width: "70%", marginLeft: "350px" }}
-      />
+      <S.ContentContainer>
+        <S.PageTitle>Activities Calendar</S.PageTitle>
+        <S.StyledCalendar
+          // @ts-ignore
+          dateCellRender={dateCellRender}
+          // @ts-ignore
+          onChange={(date) => handleChange(date)}
+          onSelect={(date) => onDaySelect(date)}
+        />
+        <h1
+          style={{ marginTop: "25px", marginBottom: "25px", color: "#ED6335" }}
+        >
+          Activites on selected day
+        </h1>
+        <section>
+          {shouldDisplayActivitiesOnSelectedDay ? (
+            <ActivityCardsColumn
+              isLoading={false}
+              activities={selectedDayActivities}
+            />
+          ) : (
+            <span>No activities on selected day</span>
+          )}
+        </section>
+      </S.ContentContainer>
     </div>
   );
 };

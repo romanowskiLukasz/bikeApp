@@ -1,47 +1,32 @@
 import React, { useState } from "react";
-import * as S from "./LoginPage.style";
+import * as S from "../loginPage/LoginPage.style";
 import RoundedButton from "../../components/atoms/buttons/roundedButton/RoundedButton";
 import { useNavigate } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
 
-const axios = require("axios").default;
+// const axios = require("axios").default;
 
-const LoginPage: React.FC = () => {
+const RegistrationPage: React.FC = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
+    name: "",
+    profileImg: "",
   });
-  const setStoreUser = useStoreActions(
-    // @ts-ignore
-    (actions) => actions.setUser
-  );
-  const setStoreStravaAccessToken = useStoreActions(
-    // @ts-ignore
-    (actions) => actions.setStravaAccessToken
-  );
+  // const setRegistrationData = useStoreActions(
+  //   // @ts-ignore
+  //   (actions) => actions.setRegistrationData
+  // );
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
   const stravaClientId = process.env.REACT_APP_STRAVA_CLIENT_ID;
-  const stravaClientSecret = process.env.REACT_APP_STRAVA_CLIENT_SECRET;
 
-  const handleLogin = () => {
-    axios
-      .post("http://localhost:8080/user/login", values)
-      .then((resp: any) => {
-        if (resp.status === 200) {
-          axios
-            .post(
-              `https://www.strava.com/oauth/token?client_id=${stravaClientId}&client_secret=${stravaClientSecret}&refresh_token=${resp.data.refreshToken}&grant_type=refresh_token`
-            )
-            .then((resp: any) => {
-              setStoreStravaAccessToken(resp.data.access_token);
-              navigate("/");
-            });
-        }
-      })
-      .catch(() => {
-        setLoginError(true);
-      });
+  const handleRegistration = () => {
+    localStorage.setItem("registrationData", JSON.stringify(values));
+    const redirectUrl = "http://localhost:3000/redirect";
+    const scope = "activity:read_all,profile:read_all";
+    // @ts-ignore
+    window.location = `http://www.strava.com/oauth/authorize?client_id=${stravaClientId}&response_type=code&redirect_uri=${redirectUrl}/exchange_token&approval_prompt=force&scope=${scope}`;
   };
 
   return (
@@ -52,8 +37,8 @@ const LoginPage: React.FC = () => {
         }
       />
       <S.Container>
-        <S.HeaderContainer>
-          <S.Title>Log In</S.Title>
+        <S.HeaderContainer style={{ alignItems: "center" }}>
+          <S.Title style={{ fontSize: "30px" }}>Join BikeApp today</S.Title>
         </S.HeaderContainer>
         {loginError && (
           <S.ErrorContainer>
@@ -75,10 +60,20 @@ const LoginPage: React.FC = () => {
           placeholder={"Password"}
           type={"password"}
         />
+        <S.StyledInput
+          value={values.name}
+          onChange={(e) => setValues({ ...values, name: e.target.value })}
+          placeholder={"Name"}
+        />
+        <S.StyledInput
+          value={values.profileImg}
+          onChange={(e) => setValues({ ...values, profileImg: e.target.value })}
+          placeholder={"Profile img src"}
+        />
         <RoundedButton
-          value={"Log In"}
+          value={"Register"}
           //@ts-ignore
-          onClick={() => handleLogin()}
+          onClick={() => handleRegistration()}
           style={{
             width: "300px",
             height: "35px",
@@ -91,13 +86,10 @@ const LoginPage: React.FC = () => {
           }}
         />
         <S.Divider />
-        <S.CustomLink to={"/registration"}>
-          {" "}
-          Don't have account? Click here!
-        </S.CustomLink>
+        <S.CustomLink to={"/login"}> Do you have account? Log in!</S.CustomLink>
       </S.Container>
     </>
   );
 };
 
-export default LoginPage;
+export default RegistrationPage;

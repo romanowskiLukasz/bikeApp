@@ -11,6 +11,8 @@ import WorkshopHomePage from "./pages/workshop/homePage/WorkshopHomePage";
 import MyBikesPage from "./pages/workshop/myBikesPage/MyBikesPage";
 import MyPartsPage from "./pages/workshop/myPartsPage/MyPartsPage";
 import LoginPage from "./pages/loginPage/LoginPage";
+import RegistrationPage from "./pages/registrationPage/RegistrationPage";
+import RedirectPage from "./pages/redirectPage/RedirectPage";
 
 const store = createStore(model);
 
@@ -29,6 +31,8 @@ function App() {
           <Route path="/workshop/my-bikes" element={<MyBikesPage />} />
           <Route path="/workshop/my-parts" element={<MyPartsPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/redirect/*" element={<RedirectPage />} />
         </Routes>
       </Router>
     </StoreProvider>

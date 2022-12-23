@@ -165,7 +165,8 @@ const ActivityCard: React.FC<Props> = ({ activity }) => {
             boundsOptions={{ padding: [25, 25] }}
             scrollWheelZoom={false}
             style={{
-              width: "580px",
+              width: "100%",
+              maxWidth: "580px",
               height: "250px",
               marginLeft: "auto",
               marginRight: "auto",
