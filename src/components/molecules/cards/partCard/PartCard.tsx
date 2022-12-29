@@ -1,5 +1,6 @@
 import React from "react";
 import * as S from "./PartCard.style";
+import RoundedButton from "../../../atoms/buttons/roundedButton/RoundedButton";
 
 interface Props {
   title: string;
@@ -8,6 +9,10 @@ interface Props {
   distance: string;
   date: string;
   changeRecommended: boolean;
+  warningText?: string;
+  hasButton?: boolean;
+  handleClick?: any;
+  buttonTxt?: string;
 }
 
 const PartCard: React.FC<Props> = ({
@@ -17,6 +22,10 @@ const PartCard: React.FC<Props> = ({
   model,
   distance,
   date,
+  warningText,
+  hasButton,
+  handleClick,
+  buttonTxt,
 }) => {
   return (
     <S.Container>
@@ -33,8 +42,17 @@ const PartCard: React.FC<Props> = ({
           <S.WarningIcon
             src={"https://cdn-icons-png.flaticon.com/512/752/752755.png"}
           />
-          <S.WarningText>New part recommended</S.WarningText>
+          <S.WarningText>
+            {warningText ? warningText : "New part recommended"}
+          </S.WarningText>
         </S.WarningContainer>
+      )}
+      {hasButton && (
+        <S.StyledRoundedButton
+          value={buttonTxt || "Done!"}
+          //@ts-ignore
+          onClick={handleClick}
+        />
       )}
     </S.Container>
   );

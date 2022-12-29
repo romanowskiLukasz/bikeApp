@@ -71,7 +71,7 @@ const TrainingDetails = ({ activityInfo }) => {
       </S.StatsRow>
       <S.StatsRow>
         <TrainingDetailStat
-          src={"https://cdn-icons-png.flaticon.com/512/8794/8794259.png"}
+          src={"https://cdn-icons-png.flaticon.com/512/567/567019.png"}
           unit={""}
           value={{
             avg: "",

@@ -12,6 +12,7 @@ export const Container = styled.div`
   cursor: pointer;
   outline: none;
   position: relative;
+  line-height: 2em;
 
   &::before {
     position: absolute;

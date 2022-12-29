@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import RoundedButton from "../../../atoms/buttons/roundedButton/RoundedButton";
 
 export const Container = styled.div`
   width: 220px;
@@ -43,4 +44,12 @@ export const WarningContainer = styled.div`
 `;
 export const WarningIcon = styled.img`
   height: 30px;
+`;
+
+export const StyledRoundedButton = styled(RoundedButton)`
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
 `;

@@ -13,6 +13,7 @@ import MyPartsPage from "./pages/workshop/myPartsPage/MyPartsPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import RegistrationPage from "./pages/registrationPage/RegistrationPage";
 import RedirectPage from "./pages/redirectPage/RedirectPage";
+import ActivitiesMapPage from "./pages/activitiesMapPage/ActivitiesMapPage";
 
 const store = createStore(model);
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/workshop/my-parts" element={<MyPartsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/activitiesMap" element={<ActivitiesMapPage />} />
           <Route path="/redirect/*" element={<RedirectPage />} />
         </Routes>
       </Router>

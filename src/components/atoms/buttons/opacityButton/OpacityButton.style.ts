@@ -11,11 +11,13 @@ export const Container = styled.div`
 
 export const Image = styled.img`
   transform: scale(1);
+  width: 100%;
+  height: 100%;
 `;
 
 export const Text = styled.h3`
   position: relative;
-  top: -500px;
+  top: -300px;
   left: -100px;
   z-index: 100;
   font-weight: 600;

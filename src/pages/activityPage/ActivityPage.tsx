@@ -114,55 +114,61 @@ const ActivityPage: React.FC = () => {
     <S.PageLayout>
       <SideMenu />
       <S.ContentContainer>
-        <S.Date>
-          {getDate(activityInfo.start_date_local).toString().slice(4, 21)}
-        </S.Date>
-        <S.ActivityName>{activityInfo.name}</S.ActivityName>
-        {furthestPoint.length > 0 && (
-          <>
-            <S.OpacityGradient>
-              <OnMapStatistic
-                title={"Distance"}
-                value={calculateDistance(parseFloat(activityInfo.distance))}
-                unit={"KM"}
-              />
+        <TrainingDetails activityInfo={activityInfo} />
+        <S.LeftSideContainer>
+          <S.Date>
+            {getDate(activityInfo.start_date_local).toString().slice(4, 21)}
+          </S.Date>
+          <S.ActivityName>{activityInfo.name}</S.ActivityName>
+          {furthestPoint.length > 0 && (
+            <>
+              <S.OpacityGradient>
+                <OnMapStatistic
+                  title={"Distance"}
+                  value={calculateDistance(parseFloat(activityInfo.distance))}
+                  unit={"KM"}
+                />
 
-              <OnMapStatistic
-                title={"Moving time"}
-                value={calculateDuration(parseFloat(activityInfo.moving_time))}
-                unit={""}
-              />
-              <OnMapStatistic
-                title={"Elevation"}
-                value={activityInfo.total_elevation_gain}
-                unit={"M"}
-              />
-            </S.OpacityGradient>
-            <MapContainer
-              bounds={[
-                [activityInfo.start_latlng[0], activityInfo.start_latlng[1]],
-                [furthestPoint[0], furthestPoint[1]],
-              ]}
-              boundsOptions={{ padding: [25, 25] }}
-              scrollWheelZoom={false}
-              zoomControl={false}
-              style={{
-                width: "100%",
-                height: "600px",
-                borderRadius: "0 0 30px 30px",
-              }}
-            >
-              <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <Polyline positions={activityPositions}></Polyline>)
-            </MapContainer>
-          </>
-        )}
-        <ActivityChartSection duration={parseFloat(activityInfo.moving_time)} />
+                <OnMapStatistic
+                  title={"Moving time"}
+                  value={calculateDuration(
+                    parseFloat(activityInfo.moving_time)
+                  )}
+                  unit={""}
+                />
+                <OnMapStatistic
+                  title={"Elevation"}
+                  value={activityInfo.total_elevation_gain}
+                  unit={"M"}
+                />
+              </S.OpacityGradient>
+              <MapContainer
+                bounds={[
+                  [activityInfo.start_latlng[0], activityInfo.start_latlng[1]],
+                  [furthestPoint[0], furthestPoint[1]],
+                ]}
+                boundsOptions={{ padding: [25, 25] }}
+                scrollWheelZoom={false}
+                zoomControl={false}
+                style={{
+                  width: "100%",
+                  height: "600px",
+                  borderRadius: "0 0 30px 30px",
+                }}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Polyline positions={activityPositions}></Polyline>)
+              </MapContainer>
+            </>
+          )}
+          <ActivityChartSection
+            duration={parseFloat(activityInfo.moving_time)}
+          />
+        </S.LeftSideContainer>
       </S.ContentContainer>
-      <TrainingDetails activityInfo={activityInfo} />
     </S.PageLayout>
   );
 };

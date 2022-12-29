@@ -1,9 +1,10 @@
 import { action } from "easy-peasy";
+import { userMockup } from "../mockups/userMockup";
 
 export default {
   isLoggedIn: false,
   loggedUserEmal: "",
-  user: {},
+  user: userMockup,
   registrationData: {},
   stravaAccessToken: "",
   activities: {},

@@ -112,9 +112,6 @@ const CalendarPage: React.FC = () => {
   const handleChange = (date: Dayjs) => {
     const beforeTimestamp = new Date(date.year(), date.month() + 1, 8);
     const afterTimestamp = new Date(date.year(), date.month() - 1, 28);
-    console.log(stravaAccessToken);
-    console.log(beforeTimestamp);
-    console.log(afterTimestamp);
     // if (stravaAccessToken.length > 0) {
     //   axios
     //     .get(
@@ -132,7 +129,6 @@ const CalendarPage: React.FC = () => {
     // }
   };
 
-  console.log(selectedDayActivities);
   return (
     <div style={{ display: "flex" }}>
       <SideMenu />

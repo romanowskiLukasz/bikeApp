@@ -68,6 +68,12 @@ const Menu = ({ open }: any) => {
         isMobile
       />
       <IconButton
+        imgSrc="https://cdn-icons-png.flaticon.com/512/717/717498.png"
+        buttonTxt="Activities Map"
+        link={"/activitiesMap"}
+        isMobile
+      />
+      <IconButton
         imgSrc="https://cdn-icons-png.flaticon.com/512/595/595577.png"
         buttonTxt="Settings"
         link={"/settings"}
@@ -154,21 +160,3 @@ const MobileMenu = () => {
 };
 
 export default MobileMenu;
-
-// const useOnClickOutside = (ref, handler) => {
-//     React.useEffect(() => {
-//             const listener = event => {
-//                 if (!ref.current || ref.current.contains(event.target)) {
-//                     return;
-//                 }
-//                 handler(event);
-//             };
-//             document.addEventListener('mousedown', listener);
-//
-//             return () => {
-//                 document.removeEventListener('mousedown', listener);
-//             };
-//         },
-//         [ref, handler],
-//     );
-// };

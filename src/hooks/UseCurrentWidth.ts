@@ -20,7 +20,7 @@ export default function useCurrentWidth() {
       //@ts-ignore
       clearTimeout(timeoutId);
       // change width from the state object after 150 milliseconds
-      timeoutId = setTimeout(() => setWidth(getWidth()), 150);
+      timeoutId = setTimeout(() => setWidth(getWidth()), 50);
     };
     // set resize listener
     window.addEventListener("resize", resizeListener);

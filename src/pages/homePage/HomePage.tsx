@@ -86,6 +86,7 @@ const HomePage = () => {
   };
 
   const postActivitiesValues = activities.map((activity: any) => {
+    // console.log(activity);
     return {
       distance: Math.round(calculateDistance(activity.distance)),
       date: activity.start_date_local,
@@ -110,6 +111,7 @@ const HomePage = () => {
       setStoreActivities(septemberActivityList);
     }
     setIsLoading(false);
+    console.log(postActivitiesValues);
     axios
       .post("http://localhost:8080/updatePartsDistance", {
         postActivitiesValues,

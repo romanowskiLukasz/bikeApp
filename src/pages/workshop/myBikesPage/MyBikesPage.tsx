@@ -6,10 +6,12 @@ import PartCard from "../../../components/molecules/cards/partCard/PartCard";
 import Modal from "../../../components/molecules/modal/Modal";
 import AddBikeModal from "../../../components/organisms/modals/addBikeModal/AddBikeModal";
 import EditBikeModal from "../../../components/organisms/modals/editBikeModal/EditBikeModal";
+import useCurrentWidth from "../../../hooks/UseCurrentWidth";
 
 const axios = require("axios").default;
 
 interface bikePart {
+  id: string;
   category: string;
   distance: string;
   date: string;
@@ -40,6 +42,7 @@ const MyBikesPage = () => {
       year: "",
       bikeParts: [
         {
+          id: "",
           category: "string",
           distance: "",
           date: "",
@@ -53,14 +56,46 @@ const MyBikesPage = () => {
     addNewBike: false,
     editBike: false,
   });
+  const [showWarnings, setShowWarnings] = useState({
+    chain: false,
+    brakePads: false,
+    tires: false,
+    cassette: false,
+    tirePressure: false,
+    chainLube: false,
+  });
+  let width = useCurrentWidth();
   const userId = 1;
+
+  const findPart = (categoryName: string) => {
+    return bikesInfo[currentBike].bikeParts.find((bike) => {
+      return bike.category === categoryName;
+    });
+  };
+
+  const validate = () => {
+    setShowWarnings({
+      chain: (findPart("chain")?.distance || 0) > 5000 ? true : false,
+      brakePads: (findPart("brakePads")?.distance || 0) > 4000 ? true : false,
+      tires: (findPart("tires")?.distance || 0) > 4500 ? true : false,
+      cassette: (findPart("cassette")?.distance || 0) > 5000 ? true : false,
+      tirePressure:
+        (findPart("tirePressure")?.distance || 0) > 100 ? true : false,
+      chainLube: (findPart("chainLube")?.distance || 0) > 100 ? true : false,
+    });
+  };
+
+  useEffect(() => {
+    validate();
+  }, [bikesInfo, currentBike]);
+
   useEffect(() => {
     axios
       .get(`http://localhost:8080/getAllBikes/${userId}`)
       .then((resp: any) => {
         setBikesInfo(resp.data);
       });
-  }, []);
+  }, [showModal]);
   const handleBikeChange = (index: number) => {
     setCurrentBike(index);
     // console.log(index);
@@ -78,10 +113,20 @@ const MyBikesPage = () => {
         });
     }, 1000);
   };
-  const findPart = (categoryName: string) => {
-    return bikesInfo[currentBike].bikeParts.find((bike) => {
-      return bike.category === categoryName;
-    });
+
+  const handleMaintenance = (partId: any) => {
+    axios
+      .post(`http://localhost:8080/updateBikePartDistance/${partId}/1`)
+      .then(() => {
+        setTimeout(() => {
+          axios
+            .get(`http://localhost:8080/getAllBikes/${userId}`)
+            .then((resp: any) => {
+              setBikesInfo(resp.data);
+            });
+        }, 500);
+        validate();
+      });
   };
 
   return (
@@ -108,7 +153,13 @@ const MyBikesPage = () => {
             />
           </S.ButtonContainer>
           <S.Divider />
-          <div style={{ display: "flex", gap: "20px" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              flexDirection: `${width > 950 ? "row" : "column"}`,
+            }}
+          >
             <S.BikeInfoContainer>
               <S.BikeImg src={`${bikesInfo[currentBike].img}`} />
 
@@ -155,8 +206,6 @@ const MyBikesPage = () => {
                 display: "flex",
                 flexWrap: "wrap",
                 gap: "20px",
-                height: "calc(100vh - 250px)",
-                overflow: "scroll",
               }}
             >
               <PartCard
@@ -165,7 +214,7 @@ const MyBikesPage = () => {
                 distance={findPart("chain")?.distance || "-"}
                 model={findPart("chain")?.model || "-"}
                 date={findPart("chain")?.date || "-"}
-                changeRecommended={false}
+                changeRecommended={showWarnings.chain}
               />
               <PartCard
                 src={"https://cdn-icons-png.flaticon.com/512/8746/8746725.png"}
@@ -173,7 +222,7 @@ const MyBikesPage = () => {
                 distance={findPart("brakePads")?.distance || "-"}
                 model={findPart("brakePads")?.model || "-"}
                 date={findPart("brakePads")?.date || "-"}
-                changeRecommended={true}
+                changeRecommended={showWarnings.brakePads}
               />
               <PartCard
                 src={"https://cdn-icons-png.flaticon.com/512/1575/1575950.png"}
@@ -181,7 +230,7 @@ const MyBikesPage = () => {
                 distance={findPart("tires")?.distance || "-"}
                 model={findPart("tires")?.model || "-"}
                 date={findPart("tires")?.date || "-"}
-                changeRecommended={false}
+                changeRecommended={showWarnings.tires}
               />
               <PartCard
                 src={"https://cdn-icons-png.flaticon.com/512/3180/3180250.png"}
@@ -189,23 +238,33 @@ const MyBikesPage = () => {
                 distance={findPart("cassette")?.distance || "-"}
                 model={findPart("cassette")?.model || "-"}
                 date={findPart("cassette")?.date || "-"}
-                changeRecommended={false}
+                changeRecommended={showWarnings.cassette}
               />
               <PartCard
                 src={"https://cdn-icons-png.flaticon.com/512/670/670758.png"}
                 title={"Tire pressure"}
-                distance={"400km"}
-                model={"Shimano XT"}
-                date={"04/10/2022"}
-                changeRecommended={false}
+                distance={findPart("tirePressure")?.distance || "-"}
+                model={findPart("tirePressure")?.model || "-"}
+                date={findPart("tirePressure")?.date || "-"}
+                warningText={"check tire pressure"}
+                changeRecommended={showWarnings.tirePressure}
+                handleClick={() =>
+                  handleMaintenance(findPart("tirePressure")?.id)
+                }
+                hasButton
+                buttonTxt={"Tires Inflated!"}
               />
               <PartCard
                 src={"https://cdn-icons-png.flaticon.com/512/2380/2380278.png"}
                 title={"Lube chain"}
-                distance={"400km"}
-                model={"Shimano XT"}
-                date={"04/10/2022"}
-                changeRecommended={false}
+                distance={findPart("chainLube")?.distance || "-"}
+                model={findPart("chainLube")?.model || "-"}
+                date={findPart("chainLube")?.date || "-"}
+                warningText={"chain must be lubricated"}
+                changeRecommended={showWarnings.chainLube}
+                handleClick={() => handleMaintenance(findPart("chainLube")?.id)}
+                hasButton
+                buttonTxt={"Chain Lubricated!"}
               />
             </div>
           </div>
@@ -220,6 +279,8 @@ const MyBikesPage = () => {
           <EditBikeModal
             onClose={() => setShowModal({ ...showModal, editBike: false })}
             initialValues={{
+              id: bikesInfo[currentBike].id,
+              img: bikesInfo[currentBike].img,
               brand: bikesInfo[currentBike].brand,
               model: bikesInfo[currentBike].model,
               year: bikesInfo[currentBike].year,

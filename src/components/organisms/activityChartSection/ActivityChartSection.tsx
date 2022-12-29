@@ -271,18 +271,18 @@ const ActivityChartSection: React.FC<Props> = ({ duration }) => {
         id={"powerZones"}
         style={menuOption === "PowerZones" ? {} : { display: "none" }}
       >
-        <div style={{ display: "flex" }}>
+        <S.PowerZonesContainer>
           <div style={{ width: "50%" }}>
             <Bar
               options={HorizontalBarChartOptions}
               data={data}
-              height={"400px"}
+              // height={"400px"}
             />
           </div>
           <div style={{ minWidth: "300px", height: "300px" }}>
             <Doughnut data={powerZonesInPercentageData} />
           </div>
-        </div>
+        </S.PowerZonesContainer>
       </section>
     </div>
   );

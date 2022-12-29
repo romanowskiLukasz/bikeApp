@@ -27,39 +27,19 @@ export const Container = styled.div`
       background-color: #ffffff;
       box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
     }
-    //.col-1 {
-    //  flex-basis: 5%;
-    //}
-    .col-2 {
-      flex-basis: 25%;
-    }
-    //.col-3 {
-    //  flex-basis: 15%;
-    //}
-    //.col-4 {
-    //  flex-basis: 15%;
-    //}
-    //.col-5 {
-    //  flex-basis: 30%;
-    //}
-    //.col-6 {
-    //  flex-basis: 10%;
-    //}
-    @media all and (max-width: 767px) {
+    @media all and (max-width: 850px) {
       .table-header {
         display: block;
       }
       .table-row {
       }
+      .col {
+        width: fit-content;
+      }
       li {
-        display: block;
+        flex-direction: column;
       }
       .col {
-        flex-basis: 100%;
-      }
-      .col {
-        display: flex;
-
         padding: 10px 0;
         &:before {
           color: #6c7a89;

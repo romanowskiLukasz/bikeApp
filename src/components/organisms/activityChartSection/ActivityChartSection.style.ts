@@ -6,3 +6,10 @@ export const Divider = styled.div`
   border-radius: 50%;
   background-color: grey;
 `;
+
+export const PowerZonesContainer = styled.div`
+  display: FLEX;
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
+`;

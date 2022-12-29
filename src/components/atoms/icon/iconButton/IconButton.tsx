@@ -9,7 +9,6 @@ interface Props {
 }
 
 const IconButton: React.FC<Props> = ({ imgSrc, buttonTxt, link, isMobile }) => {
-  console.log(isMobile);
   return (
     <S.Container
       style={

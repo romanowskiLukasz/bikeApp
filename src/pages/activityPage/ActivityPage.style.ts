@@ -6,11 +6,29 @@ export const PageLayout = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  margin-top: 40px;
-  margin-left: max(240px, calc(50% - 500px));
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 20px;
+  margin-top: 80px;
+  margin-left: max(240px, calc(50% - 450px));
   //margin-left: max(240px, auto);
   //margin-right: auto;
-  width: 800px;
+  max-width: 1400px;
+  @media (max-width: 1400px) {
+    flex-direction: column;
+    width: 100%;
+  }
+  @media (max-width: 700px) {
+    margin-left: 20px;
+    margin-top: 100px;
+  }
+`;
+
+export const LeftSideContainer = styled.div`
+  width: 700px;
+  @media (max-width: 1400px) {
+    width: 90%;
+  }
 `;
 
 export const Date = styled.span`
@@ -24,6 +42,7 @@ export const ActivityName = styled.h2`
 
 export const OpacityGradient = styled.div`
   display: flex;
+  flex-wrap: wrap;
   background: linear-gradient(
     0deg,
     rgba(169, 208, 113, 0),
