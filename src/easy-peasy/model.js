@@ -3,7 +3,8 @@ import { userMockup } from "../mockups/userMockup";
 
 export default {
   isLoggedIn: false,
-  loggedUserEmal: "",
+  loggedUserEmail: "",
+  loggedUserId: "",
   user: userMockup,
   registrationData: {},
   stravaAccessToken: "",
@@ -24,8 +25,11 @@ export default {
   setRegistrationData: action((state, registrationData) => {
     state.registrationData = registrationData;
   }),
-  setLoggedUserEmal: action((state, newEmail) => {
+  setLoggedUserEmail: action((state, newEmail) => {
     state.loggedUserEmal = newEmail;
+  }),
+  setLoggedUserId: action((state, id) => {
+    state.loggedUserId = id;
   }),
   setActivities: action((state, activities) => {
     state.activities = activities;

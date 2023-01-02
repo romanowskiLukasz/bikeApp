@@ -68,7 +68,7 @@ const MyBikesPage = () => {
   const userId = 1;
 
   const findPart = (categoryName: string) => {
-    return bikesInfo[currentBike].bikeParts.find((bike) => {
+    return bikesInfo[currentBike]?.bikeParts.find((bike) => {
       return bike.category === categoryName;
     });
   };
@@ -114,9 +114,18 @@ const MyBikesPage = () => {
     }, 1000);
   };
 
+  const handleBikeAdd = () => {
+    setShowModal({ ...showModal, addNewBike: false });
+    axios
+      .get(`http://localhost:8080/getAllBikes/${userId}`)
+      .then((resp: any) => {
+        setBikesInfo(resp.data);
+      });
+  };
+
   const handleMaintenance = (partId: any) => {
     axios
-      .post(`http://localhost:8080/updateBikePartDistance/${partId}/1`)
+      .post(`http://localhost:8080/updateBikePartDistance/${partId}/0`)
       .then(() => {
         setTimeout(() => {
           axios
@@ -153,127 +162,143 @@ const MyBikesPage = () => {
             />
           </S.ButtonContainer>
           <S.Divider />
-          <div
-            style={{
-              display: "flex",
-              gap: "20px",
-              flexDirection: `${width > 950 ? "row" : "column"}`,
-            }}
-          >
-            <S.BikeInfoContainer>
-              <S.BikeImg src={`${bikesInfo[currentBike].img}`} />
-
-              <h2 style={{ margin: "20px 0 10px 15px" }}>Bike Details</h2>
-              <S.SingleInfo>
-                Brand: {`${bikesInfo[currentBike].brand}`}
-              </S.SingleInfo>
-              <S.SingleInfo>
-                Model: {`${bikesInfo[currentBike].model}`}
-              </S.SingleInfo>
-              <S.SingleInfo>
-                Year: {`${bikesInfo[currentBike].year}`}
-              </S.SingleInfo>
-              <S.SingleInfo>
-                Weight: {`${bikesInfo[currentBike].weight}`}
-              </S.SingleInfo>
-              <S.SingleInfo>
-                Size: {`${bikesInfo[currentBike].size}`}
-              </S.SingleInfo>
-              <S.SingleInfo>
-                Date of purchase: {`${bikesInfo[currentBike].dateOfPurchase}`}
-              </S.SingleInfo>
-              <div
-                style={{
-                  display: "flex",
-                  margin: "20px 0 0 20px",
-                  gap: "20px",
-                }}
-              >
-                <RoundedButton
-                  value={"Edit Bike"}
-                  // @ts-ignore
-                  onClick={() => setShowModal({ ...showModal, editBike: true })}
-                />
-                <RoundedButton
-                  value={"Delete Bike"}
-                  // @ts-ignore
-                  onClick={deleteBike}
-                />
-              </div>
-            </S.BikeInfoContainer>
+          {bikesInfo.length ? (
             <div
               style={{
                 display: "flex",
-                flexWrap: "wrap",
                 gap: "20px",
+                flexDirection: `${width > 950 ? "row" : "column"}`,
               }}
             >
-              <PartCard
-                src={"https://cdn-icons-png.flaticon.com/512/2380/2380278.png"}
-                title={"Chain"}
-                distance={findPart("chain")?.distance || "-"}
-                model={findPart("chain")?.model || "-"}
-                date={findPart("chain")?.date || "-"}
-                changeRecommended={showWarnings.chain}
-              />
-              <PartCard
-                src={"https://cdn-icons-png.flaticon.com/512/8746/8746725.png"}
-                title={"Brake pads"}
-                distance={findPart("brakePads")?.distance || "-"}
-                model={findPart("brakePads")?.model || "-"}
-                date={findPart("brakePads")?.date || "-"}
-                changeRecommended={showWarnings.brakePads}
-              />
-              <PartCard
-                src={"https://cdn-icons-png.flaticon.com/512/1575/1575950.png"}
-                title={"Tires"}
-                distance={findPart("tires")?.distance || "-"}
-                model={findPart("tires")?.model || "-"}
-                date={findPart("tires")?.date || "-"}
-                changeRecommended={showWarnings.tires}
-              />
-              <PartCard
-                src={"https://cdn-icons-png.flaticon.com/512/3180/3180250.png"}
-                title={"Cassette"}
-                distance={findPart("cassette")?.distance || "-"}
-                model={findPart("cassette")?.model || "-"}
-                date={findPart("cassette")?.date || "-"}
-                changeRecommended={showWarnings.cassette}
-              />
-              <PartCard
-                src={"https://cdn-icons-png.flaticon.com/512/670/670758.png"}
-                title={"Tire pressure"}
-                distance={findPart("tirePressure")?.distance || "-"}
-                model={findPart("tirePressure")?.model || "-"}
-                date={findPart("tirePressure")?.date || "-"}
-                warningText={"check tire pressure"}
-                changeRecommended={showWarnings.tirePressure}
-                handleClick={() =>
-                  handleMaintenance(findPart("tirePressure")?.id)
-                }
-                hasButton
-                buttonTxt={"Tires Inflated!"}
-              />
-              <PartCard
-                src={"https://cdn-icons-png.flaticon.com/512/2380/2380278.png"}
-                title={"Lube chain"}
-                distance={findPart("chainLube")?.distance || "-"}
-                model={findPart("chainLube")?.model || "-"}
-                date={findPart("chainLube")?.date || "-"}
-                warningText={"chain must be lubricated"}
-                changeRecommended={showWarnings.chainLube}
-                handleClick={() => handleMaintenance(findPart("chainLube")?.id)}
-                hasButton
-                buttonTxt={"Chain Lubricated!"}
-              />
+              <S.BikeInfoContainer>
+                <S.BikeImg src={`${bikesInfo[currentBike]?.img}`} />
+
+                <h2 style={{ margin: "20px 0 10px 15px" }}>Bike Details</h2>
+                <S.SingleInfo>
+                  Brand: {`${bikesInfo[currentBike]?.brand}  `}
+                </S.SingleInfo>
+                <S.SingleInfo>
+                  Model: {`${bikesInfo[currentBike]?.model}  `}
+                </S.SingleInfo>
+                <S.SingleInfo>
+                  Year: {`${bikesInfo[currentBike]?.year}  `}
+                </S.SingleInfo>
+                <S.SingleInfo>
+                  Weight: {`${bikesInfo[currentBike]?.weight} `}
+                </S.SingleInfo>
+                <S.SingleInfo>
+                  Size: {`${bikesInfo[currentBike]?.size}  `}
+                </S.SingleInfo>
+                <S.SingleInfo>
+                  Date of purchase:{" "}
+                  {`${bikesInfo[currentBike]?.dateOfPurchase} `}
+                </S.SingleInfo>
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "20px 0 0 20px",
+                    gap: "20px",
+                  }}
+                >
+                  <RoundedButton
+                    value={"Edit Bike"}
+                    // @ts-ignore
+                    onClick={() =>
+                      setShowModal({ ...showModal, editBike: true })
+                    }
+                  />
+                  <RoundedButton
+                    value={"Delete Bike"}
+                    // @ts-ignore
+                    onClick={deleteBike}
+                  />
+                </div>
+              </S.BikeInfoContainer>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "20px",
+                }}
+              >
+                <PartCard
+                  src={
+                    "https://cdn-icons-png.flaticon.com/512/2380/2380278.png"
+                  }
+                  title={"Chain"}
+                  distance={findPart("chain")?.distance || "0"}
+                  model={findPart("chain")?.model || "-"}
+                  date={findPart("chain")?.date || "-"}
+                  changeRecommended={showWarnings.chain}
+                />
+                <PartCard
+                  src={
+                    "https://cdn-icons-png.flaticon.com/512/8746/8746725.png"
+                  }
+                  title={"Brake pads"}
+                  distance={findPart("brakePads")?.distance || "0"}
+                  model={findPart("brakePads")?.model || "-"}
+                  date={findPart("brakePads")?.date || "-"}
+                  changeRecommended={showWarnings.brakePads}
+                />
+                <PartCard
+                  src={
+                    "https://cdn-icons-png.flaticon.com/512/1575/1575950.png"
+                  }
+                  title={"Tires"}
+                  distance={findPart("tires")?.distance || "0"}
+                  model={findPart("tires")?.model || "-"}
+                  date={findPart("tires")?.date || "-"}
+                  changeRecommended={showWarnings.tires}
+                />
+                <PartCard
+                  src={
+                    "https://cdn-icons-png.flaticon.com/512/3180/3180250.png"
+                  }
+                  title={"Cassette"}
+                  distance={findPart("cassette")?.distance || "0"}
+                  model={findPart("cassette")?.model || "-"}
+                  date={findPart("cassette")?.date || "-"}
+                  changeRecommended={showWarnings.cassette}
+                />
+                <PartCard
+                  src={"https://cdn-icons-png.flaticon.com/512/670/670758.png"}
+                  title={"Tire pressure"}
+                  distance={findPart("tirePressure")?.distance || "0"}
+                  model={findPart("tirePressure")?.model || "-"}
+                  date={findPart("tirePressure")?.date || "-"}
+                  warningText={"check tire pressure"}
+                  changeRecommended={showWarnings.tirePressure}
+                  handleClick={() =>
+                    handleMaintenance(findPart("tirePressure")?.id)
+                  }
+                  hasButton
+                  buttonTxt={"Tires Inflated!"}
+                />
+                <PartCard
+                  src={
+                    "https://cdn-icons-png.flaticon.com/512/2380/2380278.png"
+                  }
+                  title={"Lube chain"}
+                  distance={findPart("chainLube")?.distance || "0"}
+                  model={findPart("chainLube")?.model || "-"}
+                  date={findPart("chainLube")?.date || "-"}
+                  warningText={"chain must be lubricated"}
+                  changeRecommended={showWarnings.chainLube}
+                  handleClick={() =>
+                    handleMaintenance(findPart("chainLube")?.id)
+                  }
+                  hasButton
+                  buttonTxt={"Chain Lubricated!"}
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <h2>No bikes added</h2>
+          )}
         </>
         {showModal.addNewBike && (
-          <AddBikeModal
-            onClick={() => setShowModal({ ...showModal, addNewBike: false })}
-            title={"Add bike"}
-          />
+          <AddBikeModal onClick={() => handleBikeAdd()} title={"Add bike"} />
         )}
         {showModal.editBike && (
           <EditBikeModal

@@ -9,7 +9,7 @@ interface Props {
 const SettingsButton: React.FC<Props> = ({ imgSrc, buttonTxt }) => {
   return (
     <S.Container>
-      <S.CustomLink to="/">
+      <S.CustomLink to="/settings">
         <S.Image src={imgSrc} />
         <S.Text>{buttonTxt}</S.Text>
       </S.CustomLink>

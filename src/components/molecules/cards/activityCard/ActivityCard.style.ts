@@ -9,7 +9,7 @@ export const Container = styled.div`
   background-color: white;
   border-radius: 15px;
   height: fit-content;
-  max-width: 700px;
+  max-width: 580px;
   border: 1px solid #e4e7ee;
   box-shadow: 5px 5px 15px 2px #e4e7ee;
   margin-bottom: 15px;

@@ -14,6 +14,8 @@ import LoginPage from "./pages/loginPage/LoginPage";
 import RegistrationPage from "./pages/registrationPage/RegistrationPage";
 import RedirectPage from "./pages/redirectPage/RedirectPage";
 import ActivitiesMapPage from "./pages/activitiesMapPage/ActivitiesMapPage";
+import SettingsPage from "./pages/settingsPage/SettingsPage";
+import AchievementsPage from "./pages/achievementsPage/AchievementsPage";
 
 const store = createStore(model);
 
@@ -34,6 +36,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
           <Route path="/activitiesMap" element={<ActivitiesMapPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/achievements" element={<AchievementsPage />} />
           <Route path="/redirect/*" element={<RedirectPage />} />
         </Routes>
       </Router>

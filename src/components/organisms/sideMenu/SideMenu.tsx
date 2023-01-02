@@ -35,6 +35,11 @@ const SideMenu = () => {
             buttonTxt="Activities Map"
             link={"/activitiesMap"}
           />
+          <IconButton
+            imgSrc="https://cdn-icons-png.flaticon.com/512/3113/3113028.png"
+            buttonTxt="Achievements"
+            link={"/achievements"}
+          />
           <SettingsButton
             imgSrc={"https://cdn-icons-png.flaticon.com/512/595/595577.png"}
             buttonTxt={"Settings"}

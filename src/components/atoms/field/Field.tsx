@@ -5,13 +5,14 @@ interface Props {
   handleChange: (event: any) => void;
   label: string;
   value?: string;
+  type?: string;
 }
 
-const MyField: React.FC<Props> = ({ handleChange, label, value }) => {
+const MyField: React.FC<Props> = ({ handleChange, label, value, type }) => {
   return (
     <S.Container>
       <S.Label>{label}</S.Label>
-      <S.StyledInput onChange={handleChange} value={value || ""} />
+      <S.StyledInput onChange={handleChange} value={value || ""} type={type} />
     </S.Container>
   );
 };

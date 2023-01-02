@@ -19,6 +19,15 @@ const LoginPage: React.FC = () => {
     // @ts-ignore
     (actions) => actions.setStravaAccessToken
   );
+
+  const setStoreEmail = useStoreActions(
+    // @ts-ignore
+    (actions) => actions.setLoggedUserEmail
+  );
+  const setStoreId = useStoreActions(
+    // @ts-ignore
+    (actions) => actions.setLoggedUserId
+  );
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
   const stravaClientId = process.env.REACT_APP_STRAVA_CLIENT_ID;
@@ -35,6 +44,8 @@ const LoginPage: React.FC = () => {
             )
             .then((resp: any) => {
               setStoreStravaAccessToken(resp.data.access_token);
+              setStoreEmail(values.email);
+              setStoreId(resp.data.id);
               navigate("/");
             });
         }

@@ -23,8 +23,20 @@ const AddBikeModal: React.FC<Props> = ({ onClick, title }) => {
     img: "",
   });
 
+  const userId = 1;
   const onSubmit = () => {
-    axios.post("http://localhost:8080/addBike", values);
+    axios
+      .post("http://localhost:8080/addBike", {
+        userId: userId,
+        brand: values.brand,
+        model: values.model,
+        year: values.year,
+        weight: values.weight,
+        size: values.size,
+        dateOfPurchase: values.dateOfPurchase,
+        img: values.img,
+      })
+      .then(() => onClick());
   };
 
   return (

@@ -20,13 +20,13 @@ const UserInfoCard: React.FC = () => {
   let width = useCurrentWidth();
   useEffect(() => {
     if (stravaAccessToken.length > 0) {
-      // axios
-      //   .get(
-      //     `https://www.strava.com/api/v3//athletes/${userInfo.id}/stats?access_token=${stravaAccessToken}`
-      //   )
-      //   .then((resp: any) => {
-      //     setUserStats(resp.data);
-      //   });
+      axios
+        .get(
+          `https://www.strava.com/api/v3//athletes/${userInfo.id}/stats?access_token=${stravaAccessToken}`
+        )
+        .then((resp: any) => {
+          setUserStats(resp.data);
+        });
     }
   }, [stravaAccessToken]);
 

@@ -112,21 +112,21 @@ const CalendarPage: React.FC = () => {
   const handleChange = (date: Dayjs) => {
     const beforeTimestamp = new Date(date.year(), date.month() + 1, 8);
     const afterTimestamp = new Date(date.year(), date.month() - 1, 28);
-    // if (stravaAccessToken.length > 0) {
-    //   axios
-    //     .get(
-    //       `https://www.strava.com/api/v3/athlete/activities?before=${
-    //         beforeTimestamp.getTime() / 1000
-    //       }&per_page=60
-    //       &after=${
-    //         afterTimestamp.getTime() / 1000
-    //       }&access_token=${stravaAccessToken}`
-    //     )
-    //     .then((resp: any) => {
-    //       setActivities(resp.data);
-    //       setStoreActivities(resp.data);
-    //     });
-    // }
+    if (stravaAccessToken.length > 0) {
+      axios
+        .get(
+          `https://www.strava.com/api/v3/athlete/activities?before=${
+            beforeTimestamp.getTime() / 1000
+          }&per_page=60
+          &after=${
+            afterTimestamp.getTime() / 1000
+          }&access_token=${stravaAccessToken}`
+        )
+        .then((resp: any) => {
+          setActivities(resp.data);
+          setStoreActivities(resp.data);
+        });
+    }
   };
 
   return (

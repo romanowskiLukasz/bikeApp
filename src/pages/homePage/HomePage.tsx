@@ -29,7 +29,6 @@ const HomePage = () => {
   const [activities, setActivities] = useState([]);
   const [userInfo, setUserInfo] = useState(userMockup);
   const [isLoading, setIsLoading] = useState(true);
-  let width = useCurrentWidth();
 
   const date = new Date();
   const yearNumber = date.getFullYear();
@@ -59,26 +58,47 @@ const HomePage = () => {
   setStoreUser(userMockup);
   useEffect(() => {
     if (stravaAccessToken.length > 0) {
-      // axios
-      //   .get(
-      //     `https://www.strava.com/api/v3/athlete/activities?before=${beforeDate.getTime() / 1000}&after=${
-      //       afterDate.getTime() / 1000
-      //     }&access_token=${stravaAccessToken}`
-      //   )
-      //   .then((resp: any) => {
-      //     setActivities(resp.data);
-      //     setStoreActivities(resp.data);
-      //     setIsLoading(false);
-      //   });
-      // axios
-      //   .get(
-      //     `https://www.strava.com/api/v3/athlete?access_token=${stravaAccessToken}`
-      //   )
-      //   .then((resp: any) => {
-      //     setStoreUser(resp.data);
-      //   });
+      axios
+        .get(
+          `https://www.strava.com/api/v3/athlete/activities?before=${
+            beforeDate.getTime() / 1000
+          }&after=${
+            afterDate.getTime() / 1000
+          }&access_token=${stravaAccessToken}`
+        )
+        .then((resp: any) => {
+          setActivities(resp.data);
+          setStoreActivities(resp.data);
+          setIsLoading(false);
+        });
+      axios
+        .get(
+          `https://www.strava.com/api/v3/athlete?access_token=${stravaAccessToken}`
+        )
+        .then((resp: any) => {
+          setStoreUser(resp.data);
+        });
     }
   }, [stravaAccessToken]);
+
+  console.log(stravaAccessToken);
+  useEffect(() => {
+    if (stravaAccessToken.length > 0) {
+      axios
+        .get(
+          `https://www.strava.com/api/v3/athlete/activities?before=${
+            beforeDate.getTime() / 1000
+          }&after=${
+            afterDate.getTime() / 1000
+          }&access_token=${stravaAccessToken}`
+        )
+        .then((resp: any) => {
+          setActivities(resp.data);
+          setStoreActivities(resp.data);
+          setIsLoading(false);
+        });
+    }
+  }, [monthNumber]);
 
   const getBikeName = (bikeId: string) => {
     const bike = userInfo.bikes.find((bike) => bike.id === bikeId);
@@ -95,44 +115,37 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    if (monthNumber === 10) {
-      // @ts-ignore
-      setActivities(novemberActivities);
-      setStoreActivities(novemberActivities);
-    }
-    if (monthNumber === 9) {
-      // @ts-ignore
-      setActivities(octoberActivityList);
-      setStoreActivities(octoberActivityList);
-    }
-    if (monthNumber === 8) {
-      // @ts-ignore
-      setActivities(septemberActivityList);
-      setStoreActivities(septemberActivityList);
-    }
-    setIsLoading(false);
-    console.log(postActivitiesValues);
+    // if (monthNumber === 10) {
+    //   // @ts-ignore
+    //   setActivities(novemberActivities);
+    //   setStoreActivities(novemberActivities);
+    // }
+    // if (monthNumber === 9) {
+    //   // @ts-ignore
+    //   setActivities(octoberActivityList);
+    //   setStoreActivities(octoberActivityList);
+    // }
+    // if (monthNumber === 8) {
+    //   // @ts-ignore
+    //   setActivities(septemberActivityList);
+    //   setStoreActivities(septemberActivityList);
+    // }
+    // setIsLoading(false);
+    // console.log(postActivitiesValues);
     axios
       .post("http://localhost:8080/updatePartsDistance", {
         postActivitiesValues,
       })
       .then();
-  }, [userToken, monthNumber]);
+  }, [userToken]);
 
-  console.log(width);
   return (
     <>
       <SideMenu />
 
       <S.ContentContainer>
         <UserInfoCard />
-        <section
-        // style={{
-        //   display: "flex",
-        //   flexDirection: "column",
-        //   justifyContent: "center",
-        // }}
-        >
+        <section>
           <MonthSelector setMonthNumber={handleMonthChange} />
           <ActivityCardsColumn isLoading={isLoading} activities={activities} />
         </section>
